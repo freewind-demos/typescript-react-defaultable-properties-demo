@@ -1,5 +1,7 @@
-TypeScript React Hello World Demo
-=================================
+TypeScript React Default Optional Values Demo
+=============================================
+
+
 
 ```
 npm install
