@@ -1,23 +1,25 @@
 import React from 'react'
-import {DefaultOptionalProps} from "./DefaultOptionalProps";
+
+import optionalProps from "./optionalProps";
 
 type Props = {
   name: string,
-  email?: string,
+  city?: string;
+  emails?: string[],
 }
 
-const defaultProps: DefaultOptionalProps<Props> = {
-  email: ''
-}
+const defaultProps = optionalProps<Props>().withAll({
+  city: 'test-city',
+  emails: [],
+});
 
-function helloContent(name: string, email: string): string {
-  return `Hello ${name}, ${email}`;
+function helloContent(name: string, emails: string[], city: string): string {
+  return `Hello ${name}, ${emails}, ${city}`;
 }
 
 export default function Hello(props: Props) {
-  const {name, email} = {...defaultProps, ...props};
-
+  const {name, emails, city} = {...defaultProps, ...props};
   return <div>
-    <h1>${helloContent(name, email)}</h1>
+    <h1>{helloContent(name, emails, city)}</h1>
   </div>
 };
