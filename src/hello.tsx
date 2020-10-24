@@ -6,6 +6,7 @@ type Props = {
   name: string,
   city?: string;
   emails?: string[],
+
 }
 
 const allDefaultProps: { city: string, emails: never[] } = optionalProps<Props>().withAll({
