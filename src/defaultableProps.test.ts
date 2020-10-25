@@ -16,7 +16,7 @@ describe('defaultableProps', () => {
       const defaultProps = defaultableProps<Props>().withAll({
         bbb: 'BBB',
         ccc: ['CCC'],
-        ddd: 'DDD'
+        ddd: 'DDD',
       })
       expectTypeOf(defaultProps).toEqualTypeOf<DefaultableProps<Props>>()
     })
@@ -32,7 +32,6 @@ describe('defaultableProps', () => {
   })
 
   describe('withSome', () => {
-    const normalProps: Props = {aaa: 'AAA', ddd: 'DDD'};
 
     it('infers to correct type if passing all defaultable properties', () => {
       const defaultProps = defaultableProps<Props>().withSome({
