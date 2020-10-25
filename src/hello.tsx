@@ -1,30 +1,45 @@
 import React from 'react'
-
-import optionalProps from "./optionalProps";
+import mergeDefaultProps from "./mergeDefaultProps";
+import defaultableProps from "./defaultableProps";
 
 type Props = {
   name: string,
-  city?: string;
+  city?: string | number;
   emails?: string[],
-
 }
 
-const allDefaultProps: { city: string, emails: never[] } = optionalProps<Props>().withAll({
-  city: 'test-city',
-  emails: [],
+const allDefaultProps = defaultableProps<Props>().withAll({
+  city: 555,
+  emails: ['test1@test.com'],
 });
 
-const someDefaultProps = optionalProps<Props>().withSome({
-  city: 'test-city'
+const someDefaultProps = defaultableProps<Props>().withSome({
+  emails: ['test2@test.com'],
+  // city: undefined,
+  // nonExist: 'will-have-compilation-error'
 })
 
-function helloContent(name: string, emails: string[], city: string): string {
+function helloContent(name: string, city: string | number, emails: string[]): string {
   return `Hello ${name}, ${emails}, ${city}`;
 }
 
-export default function Hello(props: Props) {
-  const {name, emails, city} = {...allDefaultProps, ...props};
+export function HelloWithInplaceDefaultProps(props: Props) {
+  const {name, city = 666, emails = ['inplace-email']} = props;
   return <div>
-    <h1>{helloContent(name, emails, city)}</h1>
+    <h1>HelloWithAllDefaultProps: {helloContent(name, city, emails)}</h1>
   </div>
-};
+}
+
+export function HelloWithAllDefaultProps(props: Props) {
+  const {name, city, emails} = mergeDefaultProps(props, allDefaultProps);
+  return <div>
+    <h1>HelloWithAllDefaultProps: {helloContent(name, city, emails)}</h1>
+  </div>
+}
+
+export function HelloWithSomeDefaultProps(props: Props) {
+  const {name, city, emails} = mergeDefaultProps(props, someDefaultProps);
+  return <div>
+    <h1>HelloWithSomeDefaultProps: {helloContent(name, city ?? 'no-passing-city', emails)}</h1>
+  </div>
+}
