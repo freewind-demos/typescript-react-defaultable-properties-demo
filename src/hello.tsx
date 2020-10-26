@@ -1,11 +1,11 @@
 import React from 'react'
-import mergeDefaultProps from "./mergeDefaultProps";
 import defaultableProps from "./defaultableProps";
+import mergeDefaultProps from "./mergeDefaultProps";
 
 type Props = {
   name: string,
   city?: string | number;
-  emails?: string[],
+  emails: string[] | undefined,
 }
 
 const allDefaultProps = defaultableProps<Props>().withAll({
